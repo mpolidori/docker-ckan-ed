@@ -51,6 +51,8 @@ RUN for d in $APP_DIR/patches/*; do \
         done ; \
     done
 
+COPY style/. $APP_DIR/src/ckan/ckan/public/base/vendor/
+
 # Copy config files
 COPY crontabs/* /etc/crontabs/
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
