@@ -8,10 +8,10 @@ services:
     env_file:
       - .dev.env
     links:
-      - db
-      - solr
-      - redis
-      - datapusher
+      - py2-db
+      - py2-solr
+      - py2-redis
+      #- datapusher
     ports:
       - "0.0.0.0:5000:5000"
     volumes:
@@ -21,7 +21,7 @@ services:
       - frontend
       - backend
     depends_on:
-      - db
+      - py2-db
 
   #datapusher:
   #  container_name: datapusher
@@ -33,10 +33,12 @@ services:
   #    - frontend
   #    - backend
 
-  db:
-    container_name: db
+  py2-db:
+    container_name: py2-db
     env_file:
       - .dev.env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/db
     build:
       context: postgresql/
     volumes:
@@ -49,8 +51,8 @@ services:
   #  build:
   #    context: solr/
 
-  solr:
-    container_name: solr
+  py2-solr:
+    container_name: py2-solr
     image: solr:8.11.1
     networks:
       - backend
@@ -63,8 +65,8 @@ services:
       - solr_data:/var/solr
       - ${PWD}/solr8/ckan_init_solr.sh:/docker-entrypoint-initdb.d/ckan_init_solr.sh
 
-  redis:
-    container_name: redis
+  py2-redis:
+    container_name: py2-redis
     image: redis:alpine
     networks:
       - backend

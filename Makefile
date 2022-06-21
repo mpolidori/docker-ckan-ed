@@ -3,7 +3,7 @@
 CKAN_HOME := /srv/app
 DOCKER_COMPOSE_YML := docker-compose.dev.yml
 CKAN_CONTAINER := ckan-dev
-CKAN_DB := db
+CKAN_DB := py2-db
 
 build:
 	docker-compose -f $(DOCKER_COMPOSE_YML) build
@@ -25,8 +25,8 @@ ckanext-ed:
 
 setup:
 	git clone git@github.com:CivicActions/ckanext-ed.git src/ckanext-ed || true
-	docker-compose -f $(DOCKER_COMPOSE_YML) build
-	docker-compose -f $(DOCKER_COMPOSE_YML) up
+	docker-compose -p py2 -f $(DOCKER_COMPOSE_YML) build
+	docker-compose -p py2 -f $(DOCKER_COMPOSE_YML) up
 
 update-dependencies:
 	./ckan/update-requirements.sh
